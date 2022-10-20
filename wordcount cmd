@@ -1,0 +1,156 @@
+hadoop@dblab-VirtualBox:~$ cd /usr/local/hadoop/sbin
+hadoop@dblab-VirtualBox:/usr/local/hadoop/sbin$ ./start-all.sh
+This script is Deprecated. Instead use start-dfs.sh and start-yarn.sh
+Starting namenodes on [localhost]
+localhost: starting namenode, logging to /usr/local/hadoop/logs/hadoop-hadoop-namenode-dblab-VirtualBox.out
+localhost: starting datanode, logging to /usr/local/hadoop/logs/hadoop-hadoop-datanode-dblab-VirtualBox.out
+Starting secondary namenodes [0.0.0.0]
+0.0.0.0: starting secondarynamenode, logging to /usr/local/hadoop/logs/hadoop-hadoop-secondarynamenode-dblab-VirtualBox.out
+starting yarn daemons
+starting resourcemanager, logging to /usr/local/hadoop/logs/yarn-hadoop-resourcemanager-dblab-VirtualBox.out
+localhost: starting nodemanager, logging to /usr/local/hadoop/logs/yarn-hadoop-nodemanager-dblab-VirtualBox.out
+hadoop@dblab-VirtualBox:/usr/local/hadoop/sbin$ jps
+2578 DataNode
+2450 NameNode
+2948 ResourceManager
+3111 Jps
+3070 NodeManager
+2767 SecondaryNameNode
+hadoop@dblab-VirtualBox:/usr/local/hadoop/sbin$ sudo -i
+[sudo] hadoop 的密码： 
+root@dblab-VirtualBox:~# vim /etc/profile
+root@dblab-VirtualBox:~# su hadoop
+hadoop@dblab-VirtualBox:/root$ cd /usr/local/hadoop
+hadoop@dblab-VirtualBox:/usr/local/hadoop$ cd bin
+hadoop@dblab-VirtualBox:/usr/local/hadoop/bin$ javac -classpath /usr/local/hadoop/share/hadoop/common/hadoop-common-2.7.1.jar:/usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-client-core-2.7.1.jar:/usr/local/maven/lib/commons-cli-1.2.jar WordCount.java
+
+注: WordCount/WordCount.java使用或覆盖了已过时的 API。
+注: 有关详细信息, 请使用 -Xlint:deprecation 重新编译。
+
+hadoop@dblab-VirtualBox:/usr/local/hadoop/bin$ jar -cvf WordCount/WordCount.jar *.class
+已添加清单
+正在添加: WordCount.class(输入 = 1946) (输出 = 1035)(压缩了 46%)
+正在添加: WordCount$IntSumReducer.class(输入 = 1793) (输出 = 750)(压缩了 58%)
+正在添加: WordCount$TokenizerMapper.class(输入 = 1790) (输出 = 765)(压缩了 57%)
+hadoop@dblab-VirtualBox:/usr/local/hadoop/bin$ ./hadoop fs -mkdir /input
+hadoop@dblab-VirtualBox:/usr/local/hadoop/bin$ vim 1.txt
+hadoop@dblab-VirtualBox:/usr/local/hadoop/bin$ ./hadoop fs -put 1.txt /input
+hadoop@dblab-VirtualBox:/usr/local/hadoop/bin$ ./hadoop fs -ls /input
+Found 1 items
+-rw-r--r--   1 hadoop supergroup         44 2018-08-29 19:32 /input/1.txt
+hadoop@dblab-VirtualBox:/usr/local/hadoop/bin$ ./hadoop jar /usr/local/hadoop/bin/WordCount/WordCount.jar org.apache.hadoop.examples.WordCount /input /output
+18/08/29 19:34:18 INFO Configuration.deprecation: session.id is deprecated. Instead, use dfs.metrics.session-id
+18/08/29 19:34:18 INFO jvm.JvmMetrics: Initializing JVM Metrics with processName=JobTracker, sessionId=
+18/08/29 19:34:19 INFO input.FileInputFormat: Total input paths to process : 1
+18/08/29 19:34:19 INFO mapreduce.JobSubmitter: number of splits:1
+18/08/29 19:34:20 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_local1228688384_0001
+18/08/29 19:34:20 INFO mapreduce.Job: The url to track the job: http://localhost:8080/
+18/08/29 19:34:20 INFO mapreduce.Job: Running job: job_local1228688384_0001
+18/08/29 19:34:20 INFO mapred.LocalJobRunner: OutputCommitter set in config null
+18/08/29 19:34:20 INFO output.FileOutputCommitter: File Output Committer Algorithm version is 1
+18/08/29 19:34:20 INFO mapred.LocalJobRunner: OutputCommitter is org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter
+18/08/29 19:34:20 INFO mapred.LocalJobRunner: Waiting for map tasks
+18/08/29 19:34:20 INFO mapred.LocalJobRunner: Starting task: attempt_local1228688384_0001_m_000000_0
+18/08/29 19:34:21 INFO output.FileOutputCommitter: File Output Committer Algorithm version is 1
+18/08/29 19:34:21 INFO mapred.Task:  Using ResourceCalculatorProcessTree : [ ]
+18/08/29 19:34:21 INFO mapred.MapTask: Processing split: hdfs://localhost:9000/input/1.txt:0+44
+18/08/29 19:34:21 INFO mapreduce.Job: Job job_local1228688384_0001 running in uber mode : false
+18/08/29 19:34:21 INFO mapreduce.Job:  map 0% reduce 0%
+18/08/29 19:34:24 INFO mapred.MapTask: (EQUATOR) 0 kvi 26214396(104857584)
+18/08/29 19:34:24 INFO mapred.MapTask: mapreduce.task.io.sort.mb: 100
+18/08/29 19:34:24 INFO mapred.MapTask: soft limit at 83886080
+18/08/29 19:34:24 INFO mapred.MapTask: bufstart = 0; bufvoid = 104857600
+18/08/29 19:34:24 INFO mapred.MapTask: kvstart = 26214396; length = 6553600
+18/08/29 19:34:24 INFO mapred.MapTask: Map output collector class = org.apache.hadoop.mapred.MapTask$MapOutputBuffer
+18/08/29 19:34:25 INFO mapred.LocalJobRunner: 
+18/08/29 19:34:25 INFO mapred.MapTask: Starting flush of map output
+18/08/29 19:34:25 INFO mapred.MapTask: Spilling map output
+18/08/29 19:34:25 INFO mapred.MapTask: bufstart = 0; bufend = 72; bufvoid = 104857600
+18/08/29 19:34:25 INFO mapred.MapTask: kvstart = 26214396(104857584); kvend = 26214372(104857488); length = 25/6553600
+18/08/29 19:34:25 INFO mapred.MapTask: Finished spill 0
+18/08/29 19:34:25 INFO mapred.Task: Task:attempt_local1228688384_0001_m_000000_0 is done. And is in the process of committing
+18/08/29 19:34:25 INFO mapred.LocalJobRunner: map
+18/08/29 19:34:25 INFO mapred.Task: Task 'attempt_local1228688384_0001_m_000000_0' done.
+18/08/29 19:34:25 INFO mapred.LocalJobRunner: Finishing task: attempt_local1228688384_0001_m_000000_0
+18/08/29 19:34:25 INFO mapred.LocalJobRunner: map task executor complete.
+18/08/29 19:34:25 INFO mapred.LocalJobRunner: Waiting for reduce tasks
+18/08/29 19:34:25 INFO mapred.LocalJobRunner: Starting task: attempt_local1228688384_0001_r_000000_0
+18/08/29 19:34:25 INFO output.FileOutputCommitter: File Output Committer Algorithm version is 1
+18/08/29 19:34:25 INFO mapred.Task:  Using ResourceCalculatorProcessTree : [ ]
+18/08/29 19:34:25 INFO mapred.ReduceTask: Using ShuffleConsumerPlugin: org.apache.hadoop.mapreduce.task.reduce.Shuffle@224015e0
+18/08/29 19:34:25 INFO reduce.MergeManagerImpl: MergerManager: memoryLimit=363285696, maxSingleShuffleLimit=90821424, mergeThreshold=239768576, ioSortFactor=10, memToMemMergeOutputsThreshold=10
+18/08/29 19:34:25 INFO reduce.EventFetcher: attempt_local1228688384_0001_r_000000_0 Thread started: EventFetcher for fetching Map Completion Events
+18/08/29 19:34:25 INFO reduce.LocalFetcher: localfetcher#1 about to shuffle output of map attempt_local1228688384_0001_m_000000_0 decomp: 63 len: 67 to MEMORY
+18/08/29 19:34:25 INFO reduce.InMemoryMapOutput: Read 63 bytes from map-output for attempt_local1228688384_0001_m_000000_0
+18/08/29 19:34:25 INFO mapreduce.Job:  map 100% reduce 0%
+18/08/29 19:34:25 INFO reduce.MergeManagerImpl: closeInMemoryFile -> map-output of size: 63, inMemoryMapOutputs.size() -> 1, commitMemory -> 0, usedMemory ->63
+18/08/29 19:34:25 INFO reduce.EventFetcher: EventFetcher is interrupted.. Returning
+18/08/29 19:34:25 INFO mapred.LocalJobRunner: 1 / 1 copied.
+18/08/29 19:34:25 INFO reduce.MergeManagerImpl: finalMerge called with 1 in-memory map-outputs and 0 on-disk map-outputs
+18/08/29 19:34:25 INFO mapred.Merger: Merging 1 sorted segments
+18/08/29 19:34:25 INFO mapred.Merger: Down to the last merge-pass, with 1 segments left of total size: 54 bytes
+18/08/29 19:34:25 INFO reduce.MergeManagerImpl: Merged 1 segments, 63 bytes to disk to satisfy reduce memory limit
+18/08/29 19:34:25 INFO reduce.MergeManagerImpl: Merging 1 files, 67 bytes from disk
+18/08/29 19:34:25 INFO reduce.MergeManagerImpl: Merging 0 segments, 0 bytes from memory into reduce
+18/08/29 19:34:25 INFO mapred.Merger: Merging 1 sorted segments
+18/08/29 19:34:25 INFO mapred.Merger: Down to the last merge-pass, with 1 segments left of total size: 54 bytes
+18/08/29 19:34:25 INFO mapred.LocalJobRunner: 1 / 1 copied.
+18/08/29 19:34:26 INFO Configuration.deprecation: mapred.skip.on is deprecated. Instead, use mapreduce.job.skiprecords
+18/08/29 19:34:26 INFO mapred.Task: Task:attempt_local1228688384_0001_r_000000_0 is done. And is in the process of committing
+18/08/29 19:34:26 INFO mapred.LocalJobRunner: 1 / 1 copied.
+18/08/29 19:34:26 INFO mapred.Task: Task attempt_local1228688384_0001_r_000000_0 is allowed to commit now
+18/08/29 19:34:26 INFO output.FileOutputCommitter: Saved output of task 'attempt_local1228688384_0001_r_000000_0' to hdfs://localhost:9000/output/_temporary/0/task_local1228688384_0001_r_000000
+18/08/29 19:34:26 INFO mapred.LocalJobRunner: reduce > reduce
+18/08/29 19:34:26 INFO mapred.Task: Task 'attempt_local1228688384_0001_r_000000_0' done.
+18/08/29 19:34:26 INFO mapred.LocalJobRunner: Finishing task: attempt_local1228688384_0001_r_000000_0
+18/08/29 19:34:26 INFO mapred.LocalJobRunner: reduce task executor complete.
+18/08/29 19:34:26 INFO mapreduce.Job:  map 100% reduce 100%
+18/08/29 19:34:26 INFO mapreduce.Job: Job job_local1228688384_0001 completed successfully
+18/08/29 19:34:26 INFO mapreduce.Job: Counters: 35
+	File System Counters
+		FILE: Number of bytes read=547358
+		FILE: Number of bytes written=1109663
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=88
+		HDFS: Number of bytes written=41
+		HDFS: Number of read operations=13
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=4
+	Map-Reduce Framework
+		Map input records=3
+		Map output records=7
+		Map output bytes=72
+		Map output materialized bytes=67
+		Input split bytes=98
+		Combine input records=7
+		Combine output records=5
+		Reduce input groups=5
+		Reduce shuffle bytes=67
+		Reduce input records=5
+		Reduce output records=5
+		Spilled Records=10
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=50
+		Total committed heap usage (bytes)=290988032
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=44
+	File Output Format Counters 
+		Bytes Written=41
+hadoop@dblab-VirtualBox:/usr/local/hadoop/bin$ ./hadoop fs -cat /output/part-r-00000
+hadoop	2
+hello	2
+is	1
+powerful	1
+spark	1
+

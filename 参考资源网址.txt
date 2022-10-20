@@ -1,0 +1,5 @@
+使用命令行编译打包运行自己的MapReduce程序
+https://dblab.xmu.edu.cn/blog/83/  
+
+视频实验步骤
+https://www.bilibili.com/video/BV1aR4y1t7NZ/?spm_id_from=333.788
