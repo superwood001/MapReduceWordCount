@@ -1,0 +1,7 @@
+Here are the problems you will solve:
+
+(a) Write a MapReduce program to count all the words in the input file and outputs the 100 most frequent words.
+
+(b) Modify your program to use a combiner and compare performance (time in seconds) against your first implementation. You should use the same AWS configuration and number of nodes you used in a)
+
+(c) Add to your code a method that uses MapReduce to count the number of words with a given length. The output should contain the 100 most frequent words in decreasing order of frequency. For example: words with 2, 3, 4, … letters.
